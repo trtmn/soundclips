@@ -20,7 +20,8 @@ jobs:
             const { sha } = context
             const tag = `release-${sha.substring(0, 7)}`
             await github.git.createRef({
-              ...context.repo,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
               ref: `refs/tags/${tag}`,
               sha: sha
             })
@@ -40,10 +41,4 @@ jobs:
       - name: Upload Release Asset
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/your-asset.zip  # replace with the path to your asset
-          asset_name: your-asset.zip  # replace with the name of your asset
-          asset_content_type: application/zip
+        en
