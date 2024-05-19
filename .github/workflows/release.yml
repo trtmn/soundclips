@@ -19,7 +19,7 @@ jobs:
           script: |
             const { sha } = context
             const tag = `release-${sha.substring(0, 7)}`
-            await github.git.createRef({
+            await github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: `refs/tags/${tag}`,
