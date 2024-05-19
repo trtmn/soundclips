@@ -12,14 +12,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Create tag
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { sha } = context
+            const tag = `release-${sha.substring(0, 7)}`
+            await github.git.createRef({
+              ...context.repo,
+              ref: `refs/tags/${tag}`,
+              sha: sha
+            })
+            return tag
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.sha }}
-          release_name: Release ${{ github.sha }}
+          tag_name: ${{ steps.create_tag.outputs.result }}
+          release_name: Release ${{ steps.create_tag.outputs.result }}
           draft: false
           prerelease: false
 
