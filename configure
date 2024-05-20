@@ -1,0 +1,5 @@
+--disable-silent-rules
+--disable-debug
+--disable-dependency-tracking
+--prefix=/opt/homebrew/Cellar/soundclips/0.0.4
+--libdir=/opt/homebrew/Cellar/soundclips/0.0.4/lib
